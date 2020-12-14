@@ -8,7 +8,6 @@ library(tokenizers)
 
 # Markov Chain
 library(markovchain)
-
 library(tokenizers)
 
 predictive_text <- function(text, num_word){
@@ -29,7 +28,7 @@ predictive_text <- function(text, num_word){
                                 
                                 input_text <- strsplit(text, " ") %>% unlist() %>% tail(1) %>% paste(collapse = " ")
                                 
-                                suggest <- fit_markov$estimate[ tolower(input_text), ] %>%
+                                suggest <- markov_unigram$estimate[ tolower(input_text), ] %>%
                                         sort(decreasing = T) %>% 
                                         head(num_word) 
                                 
@@ -74,7 +73,7 @@ predictive_text <- function(text, num_word){
                                 
                                 input_text <- strsplit(text, " ") %>% unlist() %>% tail(1) %>% paste(collapse = " ")
                                 
-                                suggest <- fit_markov$estimate[ tolower(input_text), ] %>%
+                                suggest <- markov_unigram$estimate[ tolower(input_text), ] %>%
                                         sort(decreasing = T) %>% 
                                         head(num_word) 
                                 
@@ -99,9 +98,9 @@ predictive_text <- function(text, num_word){
                         input_text <- strsplit(text, " ") %>% unlist() %>% tail(1) %>% paste(collapse = " ")
                         
                         # exclude punctuation
-                        punctuation <- which(fit_markov$estimate[ tolower(input_text), ] %>% names() %>% str_detect("[:punct:]"))
+                        punctuation <- which(markov_unigram$estimate[ tolower(input_text), ] %>% names() %>% str_detect("[:punct:]"))
                         
-                        suggest <- fit_markov$estimate[ tolower(input_text), -punctuation] %>%
+                        suggest <- markov_unigram$estimate[ tolower(input_text), -punctuation] %>%
                                 sort(decreasing = T) %>% 
                                 head(num_word) 
                         

@@ -40,6 +40,6 @@ save(markov_pentagram, file = "markov_pentagram.RData")
 
 ## Predict text based on the function that uses the previous markovs
 
-source(paste(getwd(),"/Rcode/ngramModel_fun.R", sep=""))
+source(paste(getwd(),"/Rcode/ngramModel_fun.R", sep="")) ## to do: include the tetra and pentagram in the predictive text function
 predictive_text("It would mean the", 1)
 
