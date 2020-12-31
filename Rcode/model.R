@@ -29,6 +29,7 @@ pentagram <- ngram_freq(trainingDF$text, 5)
 
 markov_unigram <- markovchainFit(unigram, method = "laplace")
 save(markov_unigram, file = "markov_unigram.RData")
+#load("markov_unigram.RData")
 markov_bigram <- markovchainFit(bigram, method = "laplace")
 save(markov_bigram, file = "markov_bigram.RData")
 markov_trigram <- markovchainFit(trigram, method = "laplace")
@@ -40,6 +41,41 @@ save(markov_pentagram, file = "markov_pentagram.RData")
 
 ## Predict text based on the function that uses the previous markovs
 
-source(paste(getwd(),"/Rcode/ngramModel_fun.R", sep="")) ## to do: include the tetra and pentagram in the predictive text function
-predictive_text("It would mean the", 1)
+source(paste(getwd(),"/Rcode/ngramModel_fun.R", sep=""))
 
+# Preparing the DF to test
+
+for (i in 1:length(testingDF$text)) {
+        
+        all_words <- unlist(strsplit(testingDF$text[i], " "))
+        testingDF$myWord[i] <- tail(all_words, 1)
+        testingDF$testing[i] <- paste(all_words[-length(all_words)], collapse = " ")
+        
+}
+
+
+# predict words in my testingDF
+
+for (i in 1:length(testingDF$text)) {
+        
+        inTest <- tryCatch(predictive_text_alternative(testingDF$testing[i], 2), error = function(e) 1) ## change the number of words predicted
+        if (is.null(inTest)) inTest <- 0
+        testingDF$predictedWords[i] <- paste(inTest, collapse = " ")
+
+}
+
+
+## how many times it was guessed right?
+
+myCount <- integer()
+for (i in 1:length(testingDF$text)) {
+        
+my_i_Count <- grep(testingDF$myWord[i], testingDF$predictedWords[i])
+
+myCount <- c(myCount, my_i_Count)
+
+}
+
+sum(myCount)/length(testingDF$line)*100 # Arround 5% of predictions right at first time
+
+sum(testingDF$predictedWords == 1 | testingDF$predictedWords == 0)/length(testingDF$line)*100 # 17% of missing data 

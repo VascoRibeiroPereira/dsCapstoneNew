@@ -91,6 +91,8 @@ clean_corpusSW <- function(corpus){
                         stripWhitespace() %>%
                         tolower() %>%
                         removeWords(profaneWords) %>%
-        removeWords(stopwords())
+                        removeWords(stopwords())
+        
+        
         return(corpus)
 }

@@ -15,7 +15,8 @@ source(paste(getwd(),"/Rcode/getCleanData_fun.R", sep=""))
 
 ### Random selection of data
 
-enDataSubset <- subsetBigData(paste(getwd(), "/final/en_US/en_US.twitter.txt", sep=""), 0.1)
+enDataSubset <- c(subsetBigData(paste(getwd(), "/final/en_US/en_US.twitter.txt", sep=""), 0.1),
+                  subsetBigData(paste(getwd(), "/final/en_US/en_US.news.txt", sep=""), 0.2))## original is .2
 
 ## Transform data to Corpus and clean with an anonymous function
 
@@ -77,7 +78,11 @@ for (i in 1:length(twitter_str2)){
         
 }
 
-twitter_Subset2 <- twitter_final2[count_words(twitter_final2) > 1]
+twitter_Subset2 <- gsub('\\b\\w{1,2}\\b','', twitter_final2)
+
+twitter_Subset2 <- stripWhitespace(trimws(twitter_Subset2))
+
+twitter_Subset2 <- twitter_Subset2[count_words(twitter_Subset2) > 1]
 
 twitterDF2 <- tibble(line = 1:length(twitter_Subset2), text = twitter_Subset2)
 
