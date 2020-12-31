@@ -7,7 +7,13 @@
 #    http://shiny.rstudio.com/
 #
 
+# libraries
 library(shiny)
+library(textclean)
+library(tm)
+library(stringr)
+library(lexicon)
+library(tokenizers)
 
 # Define UI for application that draws a histogram
 shinyUI(fluidPage(
@@ -34,7 +40,7 @@ shinyUI(fluidPage(
           div("No prediction for this input, try another one.", style = "color:blue")),
         p("When the",
           strong("Submit"),
-          "button is pressed the code will run. You can use the slider to select how many words/hipotesis you want to predict. Always press",
+          "button is pressed the code will run. You can use the slider to select how many words/hypothesis you want to predict. Always press",
           strong("Submit"),
           "after changing a parameter - number of words or the input text"),
         p("The",
@@ -42,7 +48,7 @@ shinyUI(fluidPage(
           "button clears all inputed data and outputed predictions"),
         p("Enjoy!"),
         em("Note: the prediction is based in clean data without stop words and profanity, so it is not expected that this App will predict this kind of words."),
-        p("test", style = "font-family: 'times'; font-si16pt"),
+        p(),
         h3("Next word prediction:"),
         textOutput("text"),
         tags$head(tags$style("#text{color: green;
