@@ -58,7 +58,7 @@ for (i in 1:length(testingDF$text)) {
 
 for (i in 1:length(testingDF$text)) {
         
-        inTest <- tryCatch(predictive_text_alternative(testingDF$testing[i], 2), error = function(e) 1) ## change the number of words predicted
+        inTest <- tryCatch(predictive_text_alternative(testingDF$testing[i], 1), error = function(e) 1) ## change the number of words predicted
         if (is.null(inTest)) inTest <- 0
         testingDF$predictedWords[i] <- paste(inTest, collapse = " ")
 
@@ -76,6 +76,13 @@ myCount <- c(myCount, my_i_Count)
 
 }
 
-sum(myCount)/length(testingDF$line)*100 # Arround 5% of predictions right at first time
+sum(myCount)/length(testingDF$line)*100 # 5% RFT
 
-sum(testingDF$predictedWords == 1 | testingDF$predictedWords == 0)/length(testingDF$line)*100 # 17% of missing data 
+sum(testingDF$predictedWords == 1 | testingDF$predictedWords == 0)/length(testingDF$line)*100 # 36% MD
+
+
+
+
+
+
+

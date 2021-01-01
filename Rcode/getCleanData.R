@@ -15,8 +15,12 @@ source(paste(getwd(),"/Rcode/getCleanData_fun.R", sep=""))
 
 ### Random selection of data
 
-enDataSubset <- c(subsetBigData(paste(getwd(), "/final/en_US/en_US.twitter.txt", sep=""), 0.1),
-                  subsetBigData(paste(getwd(), "/final/en_US/en_US.news.txt", sep=""), 0.2))## original is .2
+#enDataSubset <- c(subsetBigData(paste(getwd(), "/final/en_US/en_US.twitter.txt", sep=""), 0.02),
+#                  subsetBigData(paste(getwd(), "/final/en_US/en_US.news.txt", sep=""), 0.01))
+
+enDataSubset <- c(subsetBigData(paste(getwd(), "/final/en_US/en_US.news.txt", sep=""), 0.005),
+                  subsetBigData(paste(getwd(), "/final/en_US/en_US.twitter.txt", sep=""), 0.03))
+
 
 ## Transform data to Corpus and clean with an anonymous function
 

@@ -7,6 +7,7 @@
 #    http://shiny.rstudio.com/
 #
 
+
 # libraries
 library(shiny)
 library(textclean)
@@ -14,17 +15,19 @@ library(tm)
 library(stringr)
 library(lexicon)
 library(tokenizers)
+library(markovchain)
+#library(shinyjs)
 
 # Define server logic required to draw a histogram
 shinyServer(function(input, output) {
     
-    observeEvent(input$resetAll, {
-        reset("userInput")
-        reset("numWords")
-        output$text <- renderText({
-            
-        })
-    })
+    #observeEvent(input$resetAll, {
+    #    reset("userInput")
+    #    reset("numWords")
+    #    output$text <- renderText({
+    #        
+    #    })
+    #})
     
     ## Functions
     
@@ -57,7 +60,7 @@ shinyServer(function(input, output) {
         
         text <- text %>%
             replace_contraction() %>%
-            removePunctuation() %>%
+            removePunctuation() %>% ##tm
             replace_money() %>%
             replace_emoticon() %>%
             replace_symbol() %>%
@@ -65,8 +68,8 @@ shinyServer(function(input, output) {
             replace_ordinal() %>%
             replace_number() %>%
             tolower() %>%
-            removeWords(stopwords()) %>%
-            stripWhitespace() %>%
+            removeWords(stopwords()) %>% ##stopwords and removeWords are tm
+            stripWhitespace() %>% ##tm
             trimws()
         
         word_count <- count_words(text)
@@ -139,6 +142,8 @@ shinyServer(function(input, output) {
                         str_extract(pattern = "\\s(.*)") %>% 
                         str_remove("[ ]") %>%  
                         str_extract(pattern = "\\s(.*)") %>% 
+                        str_remove("[ ]") %>%  
+                        str_extract(pattern = "\\s(.*)") %>% 
                         str_remove("[ ]") 
                 }
                 
@@ -151,6 +156,10 @@ shinyServer(function(input, output) {
                 
                 suggest[suggest > 0] %>% 
                     names() %>%
+                    str_extract(pattern = "\\s(.*)") %>% 
+                    str_remove("[ ]") %>%  
+                    str_extract(pattern = "\\s(.*)") %>% 
+                    str_remove("[ ]") %>%  
                     str_extract(pattern = "\\s(.*)") %>% 
                     str_remove("[ ]") %>%  
                     str_extract(pattern = "\\s(.*)") %>% 
@@ -219,6 +228,8 @@ shinyServer(function(input, output) {
                     
                     suggest[suggest > 0] %>% 
                         names() %>%
+                        str_extract(pattern = "\\s(.*)") %>% 
+                        str_remove("[ ]") %>%  
                         str_extract(pattern = "\\s(.*)") %>% 
                         str_remove("[ ]") %>%  
                         str_extract(pattern = "\\s(.*)") %>% 
@@ -342,7 +353,8 @@ shinyServer(function(input, output) {
     })
     
     my_prediction <- eventReactive(input$userRun, {
-        tryCatch(predictive_text_alternative(input$userInput, numVals()), error = function(e) "No prediction for this input, try another one")
+        #tryCatch(predictive_text_alternative(input$userInput, numVals()), error = function(e) "No prediction for this input, try another one")
+        tryCatch(predictive_text_alternative(input$userInput, numVals()), error = function(e) sample(stopwords(),1))
     })
     
     output$text <- renderText({

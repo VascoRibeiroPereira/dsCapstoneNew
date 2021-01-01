@@ -9,15 +9,11 @@
 
 # libraries
 library(shiny)
-library(textclean)
-library(tm)
-library(stringr)
-library(lexicon)
-library(tokenizers)
+#library(shinyjs)
 
 # Define UI for application that draws a histogram
 shinyUI(fluidPage(
-    useShinyjs(),
+    #useShinyjs(),
 
     # Application title
     titlePanel("Word Prediction"),
@@ -28,26 +24,28 @@ shinyUI(fluidPage(
         sidebarPanel(
             textInput("userInput", "User Text Input"),
             sliderInput("numWords", "Number of Words to Predict", 1,10,1),
-            actionButton("userRun", "Submit"),
-            actionButton("resetAll", "Reset all")
+            actionButton("userRun", "Submit")#,
+            #actionButton("resetAll", "Reset all")
         ),
             
     # Main Panel with a word prediction
         
     mainPanel(
         h4("ShinyApp - Predicting Words: Presentation"),
-        p("In this App you will get a selected number of predicted words for your input. If the App doesn't get a prediction you will get a message saying:",
-          div("No prediction for this input, try another one.", style = "color:blue")),
+        p("In this App you will get a selected number of predicted words for your input. If the App doesn't get a prediction you will get a stop word."),
+          #div("No prediction for this input, try another one.", style = "color:blue")),
         p("When the",
           strong("Submit"),
           "button is pressed the code will run. You can use the slider to select how many words/hypothesis you want to predict. Always press",
           strong("Submit"),
-          "after changing a parameter - number of words or the input text"),
-        p("The",
-          strong("Reset"),
-          "button clears all inputed data and outputed predictions"),
+          "after changing a parameter - number of words or the input text."),
+        #p("The",
+        #  strong("Reset"),
+        #  "button clears all inputed data and outputed predictions"),
         p("Enjoy!"),
         em("Note: the prediction is based in clean data without stop words and profanity, so it is not expected that this App will predict this kind of words."),
+        p(),
+        p("Contact: vascoribeiro.sintra@gmail.com", style = "color:grey"),
         p(),
         h3("Next word prediction:"),
         textOutput("text"),

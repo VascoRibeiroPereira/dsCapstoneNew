@@ -1,0 +1,12 @@
+name: PredictingWords
+title: PredictingWords
+username:
+account: vascoribeiropereira
+server: shinyapps.io
+hostUrl: https://api.shinyapps.io/v1
+appId: 3437026
+bundleId: 4047859
+url: https://vascoribeiropereira.shinyapps.io/PredictingWords/
+when: 1609500112.32647
+asMultiple: FALSE
+asStatic: FALSE

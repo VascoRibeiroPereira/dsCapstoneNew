@@ -296,7 +296,7 @@ predictive_text_alternative <- function(text, num_word) {
         
         text <- text %>%
                 replace_contraction() %>%
-                removePunctuation() %>%
+                removePunctuation() %>% ##tm
                 replace_money() %>%
                 replace_emoticon() %>%
                 replace_symbol() %>%
@@ -304,8 +304,8 @@ predictive_text_alternative <- function(text, num_word) {
                 replace_ordinal() %>%
                 replace_number() %>%
                 tolower() %>%
-                removeWords(stopwords()) %>%
-                stripWhitespace() %>%
+                removeWords(stopwords()) %>% ##stopwords and removeWords are tm
+                stripWhitespace() %>% ##tm
                 trimws()
         
         word_count <- count_words(text)
@@ -378,6 +378,8 @@ predictive_text_alternative <- function(text, num_word) {
                                         str_extract(pattern = "\\s(.*)") %>% 
                                         str_remove("[ ]") %>%  
                                         str_extract(pattern = "\\s(.*)") %>% 
+                                        str_remove("[ ]") %>%  
+                                        str_extract(pattern = "\\s(.*)") %>% 
                                         str_remove("[ ]") 
                         }
                         
@@ -390,6 +392,10 @@ predictive_text_alternative <- function(text, num_word) {
                         
                         suggest[suggest > 0] %>% 
                                 names() %>%
+                                str_extract(pattern = "\\s(.*)") %>% 
+                                str_remove("[ ]") %>%  
+                                str_extract(pattern = "\\s(.*)") %>% 
+                                str_remove("[ ]") %>%  
                                 str_extract(pattern = "\\s(.*)") %>% 
                                 str_remove("[ ]") %>%  
                                 str_extract(pattern = "\\s(.*)") %>% 
@@ -458,6 +464,8 @@ predictive_text_alternative <- function(text, num_word) {
                                 
                                 suggest[suggest > 0] %>% 
                                         names() %>%
+                                        str_extract(pattern = "\\s(.*)") %>% 
+                                        str_remove("[ ]") %>%  
                                         str_extract(pattern = "\\s(.*)") %>% 
                                         str_remove("[ ]") %>%  
                                         str_extract(pattern = "\\s(.*)") %>% 
@@ -562,5 +570,3 @@ predictive_text_alternative <- function(text, num_word) {
                 }
         }
 }
-
-
